@@ -1,4 +1,4 @@
 {
-    "name" : "dev",
-    "pipelines" : [ "up42" ]
+    "name" : "dev2",
+    "pipelines" : [ "up43" ]
 }
