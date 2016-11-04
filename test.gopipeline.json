@@ -21,7 +21,7 @@
     {
       "type": "git",
       
-        "url": "git@github.com:example/sample_repo.git",
+        "url": "https://github.com/tomzo/gocd-json-config-example.git",
         "destination": "code",
         "filter": {
             "ignore": [
