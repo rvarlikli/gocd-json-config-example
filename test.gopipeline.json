@@ -12,6 +12,7 @@
   },
   "label_template": "${COUNT}",
   "enable_pipeline_locking": false,
+  "group" : "test-group",
   "name": "my_pipeline",
   "template": null,
   "params": [],
