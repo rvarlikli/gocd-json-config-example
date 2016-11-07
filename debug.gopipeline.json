@@ -1,7 +1,7 @@
 {
   "_links": {
     "self": {
-      "href": "http://localhost:8153/go/api/admin/pipelines/up43"
+      "href": "http://localhost:8153/go/api/admin/pipelines/up44"
     },
     "doc": {
       "href": "https://api.go.cd/#pipeline-config"
