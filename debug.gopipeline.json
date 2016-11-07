@@ -57,7 +57,7 @@
             {
               "type": "ant",
               "attributes": {
-                "run_if": [],
+                "run_if": ["passed"],
                 "on_cancel": null,
                 "working_directory": null,
                 "build_file": null,
