@@ -12,7 +12,7 @@
   },
   "label_template": "${COUNT}",
   "enable_pipeline_locking": false,
-  "name": "up444",
+  "name": "up44",
   "template": null,
   "group" : "test_group",
   "parameters": [],
