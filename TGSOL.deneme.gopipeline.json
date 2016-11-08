@@ -35,12 +35,6 @@
        "submodule_folder": null,
        "shallow_clone": false
      }
-   },
-   {
-     "type": "package",
-     "attributes": {
-       "ref": "5f138835-7033-4c74-b7fc-88e43875d139"
-     }
    }
  ],
  "stages": [
