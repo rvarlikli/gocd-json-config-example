@@ -153,7 +153,7 @@
         {
           "secure": true,
           "name": "DOCKER_USER_PASS",
-          "encrypted_value": "ihjIbrSQYE/e2HwS+BZb7w=="
+          "value": "12341234"
         }
       ],
       "jobs": [
