@@ -1,0 +1,230 @@
+{
+  "_links": {
+    "self": {
+      "href": "http://gocd.mtm.video:8153/go/api/admin/pipelines/BuildApplication"
+    },
+    "doc": {
+      "href": "https://api.gocd.io/#pipeline-config"
+    },
+    "find": {
+      "href": "http://gocd.mtm.video:8153/go/api/admin/pipelines/:pipeline_name"
+    }
+  },
+  "label_template": "${COUNT}",
+  "enable_pipeline_locking": false,
+  "name": "BuildApplication",
+  "template": null,
+  "parameters": [
+
+  ],
+  "environment_variables": [
+    {
+      "secure": false,
+      "name": "CONFIG_FILE_NAME",
+      "value": "application.dev.yml"
+    }
+  ],
+  "materials": [
+    {
+      "type": "git",
+      "attributes": {
+        "url": "https://rvarlikli@bitbucket.org/mtmvideo/mtm.git",
+        "destination": null,
+        "filter": null,
+        "invert_filter": false,
+        "name": "mtm-backend",
+        "auto_update": true,
+        "branch": "development",
+        "submodule_folder": null,
+        "shallow_clone": false
+      }
+    }
+  ],
+  "stages": [
+    {
+      "name": "GradleStage",
+      "fetch_materials": true,
+      "clean_working_directory": false,
+      "never_cleanup_artifacts": false,
+      "approval": {
+        "type": "manual",
+        "authorization": {
+          "roles": [
+
+          ],
+          "users": [
+
+          ]
+        }
+      },
+      "environment_variables": [
+
+      ],
+      "jobs": [
+        {
+          "name": "Build",
+          "run_instance_count": null,
+          "timeout": null,
+          "environment_variables": [
+
+          ],
+          "resources": [
+            "gradle"
+          ],
+          "tasks": [
+            {
+              "type": "exec",
+              "attributes": {
+                "run_if": [
+                  "passed"
+                ],
+                "on_cancel": null,
+                "command": "/bin/bash",
+                "arguments": [
+                  "-c",
+                  "source \"/root/.sdkman/bin/sdkman-init.sh\" && gradle clean build -x test"
+                ],
+                "working_directory": null
+              }
+            }
+          ],
+          "tabs": [
+
+          ],
+          "artifacts": [
+
+          ],
+          "properties": null
+        }
+      ]
+    },
+    {
+      "name": "PackerStage",
+      "fetch_materials": true,
+      "clean_working_directory": false,
+      "never_cleanup_artifacts": false,
+      "approval": {
+        "type": "success",
+        "authorization": {
+          "roles": [
+
+          ],
+          "users": [
+
+          ]
+        }
+      },
+      "environment_variables": [
+        {
+          "secure": false,
+          "name": "BASE_IMAGE_NAME",
+          "value": "java"
+        },
+        {
+          "secure": false,
+          "name": "BASE_IMAGE_VERSION",
+          "value": "openjdk-8-alpine"
+        },
+        {
+          "secure": false,
+          "name": "BASE_NAME",
+          "value": "mtm"
+        },
+        {
+          "secure": false,
+          "name": "VERSION",
+          "value": "1.0.0"
+        },
+        {
+          "secure": false,
+          "name": "DOCKER_USER",
+          "value": "cloudnesil"
+        },
+        {
+          "secure": false,
+          "name": "PROFILE_NAME",
+          "value": "dev"
+        },
+        {
+          "secure": false,
+          "name": "IMAGE_VERSION",
+          "value": "api-1.0.0"
+        },
+        {
+          "secure": true,
+          "name": "DOCKER_USER_PASS",
+          "encrypted_value": "ihjIbrSQYE/e2HwS+BZb7w=="
+        }
+      ],
+      "jobs": [
+        {
+          "name": "CreateImage",
+          "run_instance_count": null,
+          "timeout": null,
+          "environment_variables": [
+
+          ],
+          "resources": [
+            "packer"
+          ],
+          "tasks": [
+            {
+              "type": "exec",
+              "attributes": {
+                "run_if": [
+                  "passed"
+                ],
+                "on_cancel": null,
+                "command": "/bin/bash",
+                "arguments": [
+                  "-c",
+                  "packer build devops/docker/mtm/mtm.json"
+                ],
+                "working_directory": null
+              }
+            },
+            {
+              "type": "exec",
+              "attributes": {
+                "run_if": [
+                  "passed"
+                ],
+                "on_cancel": null,
+                "command": "/bin/bash",
+                "arguments": [
+                  "-c",
+                  "docker login --username=$DOCKER_USER --password=$DOCKER_USER_PASS"
+                ],
+                "working_directory": null
+              }
+            },
+            {
+              "type": "exec",
+              "attributes": {
+                "run_if": [
+                  "passed"
+                ],
+                "on_cancel": null,
+                "command": "/bin/bash",
+                "arguments": [
+                  "-c",
+                  "docker push $DOCKER_USER/$BASE_NAME:$IMAGE_VERSION"
+                ],
+                "working_directory": null
+              }
+            }
+          ],
+          "tabs": [
+
+          ],
+          "artifacts": [
+
+          ],
+          "properties": null
+        }
+      ]
+    }
+  ],
+  "tracking_tool": null,
+  "timer": null
+}
